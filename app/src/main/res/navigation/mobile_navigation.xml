@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.appferreteria.ui.inicio.InicioFragment"
+        android:label="@string/inicio"
+        tools:layout="@layout/fragment_inicio" />
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.example.appferreteria.ui.perfil.PerfilFragment"
+        android:label="Perfil"
+        tools:layout="@layout/fragment_perfil" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.example.appferreteria.ui.stock.AjusteStockFragment"
+        android:label="Control y ajuste Stock"
+        tools:layout="@layout/fragment_ajustestock" />
+    <activity
+        android:id="@+id/activityLogin"
+        android:name="com.example.appferreteria.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
+    <fragment
+        android:id="@+id/detalleProductosFragment"
+        android:name="com.example.appferreteria.ui.productos.DetalleProductosFragment"
+        android:label="Detalle de Productos" />
+    <fragment
+        android:id="@+id/perfilFragment"
+        android:name="com.example.appferreteria.ui.perfil.PerfilFragment"
+        android:label="Perfil" />
+    <fragment
+        android:id="@+id/productosAgregarFragment"
+        android:name="com.example.appferreteria.ui.productos.ProductosAgregarFragment"
+        android:label="Agregar Productos" />
+    <fragment
+        android:id="@+id/reporteVentasFragment"
+        android:name="com.example.appferreteria.ui.reporteVentas.ReporteVentasFragment"
+        android:label="Reporte Ventas" />
+    <fragment
+        android:id="@+id/productosFragment"
+        android:name="com.example.appferreteria.ui.productos.ProductosFragment"
+        android:label="Productos" />
+    <fragment
+        android:id="@+id/registrarUsuarioFragment"
+        android:name="com.example.appferreteria.ui.usuarios.RegistrarUsuarioFragment"
+        android:label="Registrar Usuario" />
+    <fragment
+        android:id="@+id/cambiocontraseniaFragment"
+        android:name="com.example.appferreteria.ui.perfil.CambioContraseniaFragment"
+        android:label="Cambiar contraseña"
+        tools:layout="@layout/fragment_cambiocontrasenia" />
+</navigation>
