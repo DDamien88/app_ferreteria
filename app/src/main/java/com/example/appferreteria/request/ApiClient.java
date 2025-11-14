@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import com.example.appferreteria.modelo.CambiarPasswordRequest;
 import com.example.appferreteria.modelo.LoginRequest;
 import com.example.appferreteria.modelo.LoginResponse;
+import com.example.appferreteria.modelo.MovimientoInventario;
 import com.example.appferreteria.modelo.Producto;
 import com.example.appferreteria.modelo.Usuario;
 import com.google.gson.Gson;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -35,7 +37,6 @@ public class ApiClient {
     public final static String BASE_URL = "http://192.168.1.4:5256/";
 
     public static final Gson gson = new GsonBuilder().setLenient().create();
-
 
 
     public static InmoServicio getInmoServicio() {
@@ -116,6 +117,28 @@ public class ApiClient {
         Call<Void> eliminarProducto(
                 @Header("Authorization") String token,
                 @Path("id") int id
+        );
+
+
+        // ===========================
+        // Movimientos
+        // ===========================
+
+        @POST("api/movimientos")
+        Call<ResponseBody> registrarMovimiento(@Header("Authorization") String token,
+                                               @Body MovimientoInventario movimiento
+        );
+
+        @GET("api/movimientos")
+        Call<List<MovimientoInventario>> listarMovimientos(
+                @Header("Authorization") String token
+        );
+
+        // 2) GET: api/movimientos/producto/{codigoBarras}
+        @GET("api/movimientos/producto/{codigoBarras}")
+        Call<List<MovimientoInventario>> listarMovimientosPorProducto(
+                @Header("Authorization") String token,
+                @Path("codigoBarras") String codigoBarras
         );
 
 

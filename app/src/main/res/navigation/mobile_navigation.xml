@@ -56,4 +56,8 @@
         android:name="com.example.appferreteria.ui.perfil.CambioContraseniaFragment"
         android:label="Cambiar contraseña"
         tools:layout="@layout/fragment_cambiocontrasenia" />
+    <fragment
+        android:id="@+id/historialMovimientosFragment"
+        android:name="com.example.appferreteria.ui.stock.HistorialMovimientosFragment"
+        android:label="Historial Movimientos stock" />
 </navigation>

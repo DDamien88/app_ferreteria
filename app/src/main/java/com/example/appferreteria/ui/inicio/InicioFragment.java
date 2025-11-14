@@ -48,7 +48,7 @@ public class InicioFragment extends Fragment {
         });
 
         binding.btnAjustarStock.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.fragmentAjuste);
+            Navigation.findNavController(v).navigate(R.id.nav_slideshow);
         });
 
         binding.btnVerReportes.setOnClickListener(v -> {

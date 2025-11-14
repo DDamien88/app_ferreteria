@@ -23,7 +23,7 @@
             android:title="@string/ventas" />
 
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/historialMovimientosFragment"
             android:icon="@drawable/stock"
             android:title="@string/Stock" />
 
