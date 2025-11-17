@@ -145,7 +145,7 @@ public class LoginActivityViewModel extends AndroidViewModel {
 
 
                     // Guardamos token + rol del usuario
-                    ApiClient.guardarToken(getApplication(), token, user);
+                    ApiClient.guardarToken(getApplication(), loginResponse);
 
                     Toast.makeText(getApplication(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
                     Log.d("TOKEN", token);
@@ -153,39 +153,34 @@ public class LoginActivityViewModel extends AndroidViewModel {
 
                     //token fire base
 
+                    // OBTENER USER ID Y TOKEN PARA ENVIAR FCM
+                    int userId = loginResponse.getUsuarioId();
+                    String auth = "Bearer " + loginResponse.getToken();
+
+                    // OBTENER TOKEN FCM DEL DISPOSITIVO
                     FirebaseMessaging.getInstance().getToken()
                             .addOnCompleteListener(task -> {
-                                if (!task.isSuccessful()) {
-                                    Log.w("Firebase", "No se pudo obtener el token FCM", task.getException());
-                                    return;
+                                if (task.isSuccessful()) {
+
+                                    String fcmToken = task.getResult();
+
+                                    TokenRequest req = new TokenRequest(userId, fcmToken);
+
+                                    ApiClient.getInmoServicio()
+                                            .enviarToken(auth, req)
+                                            .enqueue(new Callback<Void>() {
+                                                @Override
+                                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                                    Log.d("LOGIN", "Token FCM actualizado en el servidor");
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<Void> call, Throwable t) {
+                                                    Log.e("LOGIN", "Error enviando token FCM", t);
+                                                }
+                                            });
                                 }
-
-                                String fcmToken = task.getResult();
-                                Log.d("token_fire", "FCM Token REAL: " + fcmToken);
-
-                                // Construir request para el servidor
-                                TokenRequest req = new TokenRequest(loginResponse.getUsuarioId(), fcmToken);
-
-                                ApiClient.InmoServicio api = ApiClient.getInmoServicio();
-                                Call<Void> callFcm = api.enviarToken("Bearer " + token,req);
-
-                                callFcm.enqueue(new Callback<Void>() {
-                                    @Override
-                                    public void onResponse(Call<Void> call, Response<Void> response) {
-                                        if (response.isSuccessful()) {
-                                            Log.d("FCM_SERVER", "🔥 Token Firebase guardado correctamente");
-                                        } else {
-                                            Log.e("FCM_SERVER", "❌ Error guardando token. CODE: " + response.code());
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<Void> call, Throwable t) {
-                                        Log.e("FCM_SERVER", "❌ Error al conectar: " + t.getMessage());
-                                    }
-                                });
                             });
-
 
 
                     // Navegamos a la actividad principal

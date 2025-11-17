@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         Menu menu = navigationView.getMenu();
         MenuItem registrarUsuario = menu.findItem(R.id.registrarUsuarioFragment);
         MenuItem stockMovimientos = menu.findItem(R.id.historialMovimientosFragment);
+        MenuItem notificaciones = menu.findItem(R.id.notificacionFragment);
 
 // Leer rol desde SharedPreferences
         SharedPreferences sp = getSharedPreferences("token.xml", Context.MODE_PRIVATE);
@@ -112,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
 // Mostrar solo si es Dueño
         registrarUsuario.setVisible("Dueño".equals(rol));
         stockMovimientos.setVisible("Dueño".equals(rol));
+        notificaciones.setVisible("Dueño".equals(rol));
+
 
 
         //botón flotante

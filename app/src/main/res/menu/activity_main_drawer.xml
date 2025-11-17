@@ -28,6 +28,11 @@
             android:title="@string/Stock" />
 
         <item
+            android:id="@+id/notificacionFragment"
+            android:icon="@drawable/notification"
+            android:title="Notificaciones" />
+
+        <item
             android:id="@+id/registrarUsuarioFragment"
             android:icon="@drawable/users"
             android:title="Registrar usuarios" />

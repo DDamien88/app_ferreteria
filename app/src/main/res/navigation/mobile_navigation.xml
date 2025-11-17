@@ -60,4 +60,9 @@
         android:id="@+id/historialMovimientosFragment"
         android:name="com.example.appferreteria.ui.stock.HistorialMovimientosFragment"
         android:label="Historial Movimientos stock" />
+    <fragment
+        android:id="@+id/notificacionFragment"
+        android:name="com.example.appferreteria.ui.notificaciones.NotificacionFragment"
+        android:label="Notificaciones"
+        tools:layout="@layout/fragment_notificacion" />
 </navigation>

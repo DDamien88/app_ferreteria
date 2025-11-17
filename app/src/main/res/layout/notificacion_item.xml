@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="3dp"
+    android:foreground="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <!-- Título de la notificación -->
+        <TextView
+            android:id="@+id/tvTituloNotif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nuevo producto agregado"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"/>
+
+        <!-- Usuario que generó la acción -->
+        <TextView
+            android:id="@+id/tvUsuarioNotif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Por: Juan Pérez"
+            android:textSize="13sp"
+            android:textColor="#555"
+            android:layout_marginTop="2dp"/>
+
+        <!-- Cuerpo / mensaje -->
+        <TextView
+            android:id="@+id/tvMensajeNotif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Se agregó: Martillo"
+            android:textSize="14sp"
+            android:layout_marginTop="2dp"
+            android:textColor="#444"/>
+
+        <!-- Fecha -->
+        <TextView
+            android:id="@+id/tvFechaNotif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2025-11-18 14:30"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:textColor="#777"/>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

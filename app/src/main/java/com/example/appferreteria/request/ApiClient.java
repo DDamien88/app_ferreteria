@@ -8,6 +8,7 @@ import com.example.appferreteria.modelo.CambiarPasswordRequest;
 import com.example.appferreteria.modelo.LoginRequest;
 import com.example.appferreteria.modelo.LoginResponse;
 import com.example.appferreteria.modelo.MovimientoInventario;
+import com.example.appferreteria.modelo.Notificacion;
 import com.example.appferreteria.modelo.Producto;
 import com.example.appferreteria.modelo.ReporteVentas;
 import com.example.appferreteria.modelo.TokenRequest;
@@ -172,10 +173,17 @@ public class ApiClient {
         @POST("api/notificaciones/enviar")
         Call<Void> enviarnotificaciones(@Body TokenRequest tokenRequest);
 
+        @GET("api/notificaciones/{usuarioId}")
+        Call<List<Notificacion>> obtenerNotificaciones(
+                @Header("Authorization") String token,
+                @Path("usuarioId") int usuarioId
+        );
+
+
     }
 
 
-    public static void guardarToken(Context context, String token, Usuario usuario) {
+    /*public static void guardarToken(Context context, String token, Usuario usuario) {
         SharedPreferences sp = context.getSharedPreferences("token.xml", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString("token", token);
@@ -183,18 +191,38 @@ public class ApiClient {
         editor.putString("nombre", usuario.getNombre());
         editor.putString("apellido", usuario.getApellido());
         editor.apply();
-    }
+    }*/
 
+
+    /*public static String leerToken(Context context) {
+        SharedPreferences sp = context.getSharedPreferences("token.xml", Context.MODE_PRIVATE);
+        return sp.getString("token", null);
+    }*/
+
+    // Acá fire base
+
+    public static void guardarToken(Context context, LoginResponse login) {
+        SharedPreferences sp = context.getSharedPreferences("token.xml", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("token", login.getToken());
+        editor.putString("rol", login.getRol());
+        editor.putString("nombre", login.getNombre());
+        editor.putString("apellido", login.getApellido());
+        editor.putInt("usuarioId", login.getUsuarioId());
+        editor.apply();
+    }
 
     public static String leerToken(Context context) {
         SharedPreferences sp = context.getSharedPreferences("token.xml", Context.MODE_PRIVATE);
-        return sp.getString("token", null);
+        return sp.getString("token", "");
     }
 
     public static int obtenerUsuarioId(Context context) {
         SharedPreferences sp = context.getSharedPreferences("token.xml", Context.MODE_PRIVATE);
         return sp.getInt("usuarioId", -1);
     }
+
+
 
 
 }

@@ -10,6 +10,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.appferreteria.R;
 import com.example.appferreteria.MainActivity; // ⬅️ ¡IMPORTANTE! Cambiado a la Activity Principal
@@ -35,9 +36,34 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      */
     @Override
     public void onNewToken(@NonNull String token) {
-        Log.d(TAG, "Refreshed token: " + token);
-        sendRegistrationToServer(token);
+
+        Log.d("FCM", "Nuevo token FCM: " + token);
+
+        int userId = ApiClient.obtenerUsuarioId(getApplicationContext());
+        String jwt = ApiClient.leerToken(getApplicationContext());
+
+        if (userId == -1 || jwt.isEmpty()) {
+            Log.e("FCM", "No hay sesión iniciada, no se envía token");
+            return;
+        }
+
+        TokenRequest req = new TokenRequest(userId, token);
+
+        ApiClient.getInmoServicio()
+                .enviarToken("Bearer " + jwt, req)
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        Log.d("FCM", "Token actualizado correctamente");
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Log.e("FCM", "Error actualizando token", t);
+                    }
+                });
     }
+
 
     /**
      * Maneja los mensajes recibidos mientras la app está en primer plano.
@@ -49,28 +75,34 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String title = null;
         String body = null;
 
-        // 1. Obtener Título y Cuerpo desde Notification (si existe)
         if (remoteMessage.getNotification() != null) {
             title = remoteMessage.getNotification().getTitle();
             body = remoteMessage.getNotification().getBody();
         }
 
-        // 2. Manejar datos de carga útil (data payload)
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
 
-            // Si no hay campos de Notification, usamos Data como fallback para el cuerpo
             if (title == null || body == null) {
                 title = remoteMessage.getData().getOrDefault("title", "Alerta de Ferretería");
                 body = remoteMessage.getData().getOrDefault("message", "Mensaje sin cuerpo.");
             }
-
-            handleDataPayload(title, body, remoteMessage.getData());
-        } else if (title != null && body != null) {
-            // Si solo hay Notification (app en background), mostrar notificación simple
-            sendNotification(title, body, null);
         }
+
+        // ================================================
+        // 🔥 IMPORTANTE: enviar broadcast al Fragment
+        // ================================================
+        Intent intent = new Intent("NOTIFICACION_RECIBIDA");
+        intent.putExtra("titulo", title);
+        intent.putExtra("cuerpo", body);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+
+        // ================================================
+        // 🔔 También mostrar la notificación en la barra
+        // ================================================
+        sendNotification(title, body, null);
     }
+
 
     /**
      * Interpreta la carga de datos (Data Payload) y construye la notificación.
@@ -123,7 +155,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         TokenRequest request = new TokenRequest(userId, tokenFCM);
         // Usar el JWT guardado para la autenticación
         Call<Void> call = ApiClient.getInmoServicio()
-                .enviarToken("Bearer "+ jwt, request);
+                .enviarToken("Bearer " + jwt, request);
 
         call.enqueue(new Callback<Void>() {
             @Override
@@ -145,6 +177,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     /**
      * Crea y muestra una notificación en primer plano.
+     *
      * @param clickIntent Intent que se ejecuta al hacer click (opcional).
      */
     private void sendNotification(String title, String body, Intent clickIntent) {
