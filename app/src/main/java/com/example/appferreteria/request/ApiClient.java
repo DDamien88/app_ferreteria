@@ -9,6 +9,8 @@ import com.example.appferreteria.modelo.LoginRequest;
 import com.example.appferreteria.modelo.LoginResponse;
 import com.example.appferreteria.modelo.MovimientoInventario;
 import com.example.appferreteria.modelo.Producto;
+import com.example.appferreteria.modelo.ReporteVentas;
+import com.example.appferreteria.modelo.TokenRequest;
 import com.example.appferreteria.modelo.Usuario;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -32,6 +34,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public class ApiClient {
     public final static String BASE_URL = "http://192.168.1.4:5256/";
@@ -142,6 +145,33 @@ public class ApiClient {
         );
 
 
+        // ===========================
+        // Informes ventas
+        // ===========================
+        @GET("api/reporteVentas")
+        Call<List<ReporteVentas>> obtenerTodo(@Header("Authorization") String token);
+
+        @GET("api/reporteVentas/rango")
+        Call<List<ReporteVentas>> obtenerPorRango(
+                @Header("Authorization") String token,
+                @Query("fechaInicio") String fechaInicio,
+                @Query("fechaFin") String fechaFin
+        );
+
+
+        // ===========================
+        // Notificaciones
+        // ===========================
+        @POST("api/notificaciones/enviar-token")
+        Call<Void> enviarToken(
+                @Header("Authorization") String auth,
+                @Body TokenRequest tokenRequest
+        );
+
+
+        @POST("api/notificaciones/enviar")
+        Call<Void> enviarnotificaciones(@Body TokenRequest tokenRequest);
+
     }
 
 
@@ -160,5 +190,11 @@ public class ApiClient {
         SharedPreferences sp = context.getSharedPreferences("token.xml", Context.MODE_PRIVATE);
         return sp.getString("token", null);
     }
+
+    public static int obtenerUsuarioId(Context context) {
+        SharedPreferences sp = context.getSharedPreferences("token.xml", Context.MODE_PRIVATE);
+        return sp.getInt("usuarioId", -1);
+    }
+
 
 }

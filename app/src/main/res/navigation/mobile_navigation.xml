@@ -42,7 +42,7 @@
     <fragment
         android:id="@+id/reporteVentasFragment"
         android:name="com.example.appferreteria.ui.reporteVentas.ReporteVentasFragment"
-        android:label="Reporte Ventas" />
+        android:label="Reporte estadístico de Ventas" />
     <fragment
         android:id="@+id/productosFragment"
         android:name="com.example.appferreteria.ui.productos.ProductosFragment"

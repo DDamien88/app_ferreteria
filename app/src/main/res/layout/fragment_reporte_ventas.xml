@@ -10,7 +10,6 @@
     android:background="@android:color/white"
     tools:context=".ui.reporteVentas.ReporteVentasFragment">
 
-    <!-- Título principal -->
     <TextView
         android:id="@+id/tvReportesTitle"
         android:layout_width="wrap_content"
@@ -37,12 +36,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Período"
-            android:text="Mes actual"
             android:inputType="none"
             android:paddingEnd="8dp" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Gráfico de barras (ventas por mes o categoría)
+
+    <!-- ⭐ Gráfico de Barras -->
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/barChartVentas"
         android:layout_width="0dp"
@@ -51,11 +51,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
-        android:background="@drawable/bg_chart_card"
         android:padding="8dp"
-        tools:ignore="MissingConstraints" />-->
+        tools:ignore="MissingConstraints"/>
 
-    <!-- Gráfico de torta (distribución por categoría)
+    <!-- ⭐ Gráfico de Torta -->
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/pieChartCategorias"
         android:layout_width="0dp"
@@ -64,32 +63,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"
-        android:background="@drawable/bg_chart_card"
-        android:padding="8dp" />-->
-
-    <!-- Texto para lista
-    <TextView
-        android:id="@+id/tvUltimosMovimientos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Últimos movimientos"
-        android:textStyle="bold"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
-        app:layout_constraintTop_toBottomOf="@id/pieChartCategorias"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="16dp" />-->
-
-    <!-- RecyclerView para datos detallados
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvReportes"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/tvUltimosMovimientos"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"
-        tools:listitem="@layout/item_reporte" />-->
+        android:padding="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

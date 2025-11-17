@@ -29,6 +29,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appferreteria.databinding.ActivityMainBinding;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import retrofit2.Call;
 
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         //NavigationView navigationView = findViewById(R.id.nav_view);
         Menu menu = navigationView.getMenu();
         MenuItem registrarUsuario = menu.findItem(R.id.registrarUsuarioFragment);
+        MenuItem stockMovimientos = menu.findItem(R.id.historialMovimientosFragment);
 
 // Leer rol desde SharedPreferences
         SharedPreferences sp = getSharedPreferences("token.xml", Context.MODE_PRIVATE);
@@ -109,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
 // Mostrar solo si es Dueño
         registrarUsuario.setVisible("Dueño".equals(rol));
+        stockMovimientos.setVisible("Dueño".equals(rol));
 
 
         //botón flotante

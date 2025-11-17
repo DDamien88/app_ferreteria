@@ -52,7 +52,7 @@ public class InicioFragment extends Fragment {
         });
 
         binding.btnVerReportes.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.fragmentReportes);
+            Navigation.findNavController(v).navigate(R.id.reporteVentasFragment);
         });
 
 

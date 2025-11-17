@@ -20,9 +20,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 
+import com.example.appferreteria.firebase.MyFirebaseMessagingService;
 import com.example.appferreteria.modelo.LoginResponse;
+import com.example.appferreteria.modelo.TokenRequest;
 import com.example.appferreteria.modelo.Usuario;
 import com.example.appferreteria.request.ApiClient;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -140,12 +143,50 @@ public class LoginActivityViewModel extends AndroidViewModel {
                     user.setNombre(loginResponse.getNombre());
                     user.setApellido(loginResponse.getApellido());
 
+
                     // Guardamos token + rol del usuario
                     ApiClient.guardarToken(getApplication(), token, user);
 
                     Toast.makeText(getApplication(), "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
                     Log.d("TOKEN", token);
                     Log.d("ROL", rol);
+
+                    //token fire base
+
+                    FirebaseMessaging.getInstance().getToken()
+                            .addOnCompleteListener(task -> {
+                                if (!task.isSuccessful()) {
+                                    Log.w("Firebase", "No se pudo obtener el token FCM", task.getException());
+                                    return;
+                                }
+
+                                String fcmToken = task.getResult();
+                                Log.d("token_fire", "FCM Token REAL: " + fcmToken);
+
+                                // Construir request para el servidor
+                                TokenRequest req = new TokenRequest(loginResponse.getUsuarioId(), fcmToken);
+
+                                ApiClient.InmoServicio api = ApiClient.getInmoServicio();
+                                Call<Void> callFcm = api.enviarToken("Bearer " + token,req);
+
+                                callFcm.enqueue(new Callback<Void>() {
+                                    @Override
+                                    public void onResponse(Call<Void> call, Response<Void> response) {
+                                        if (response.isSuccessful()) {
+                                            Log.d("FCM_SERVER", "🔥 Token Firebase guardado correctamente");
+                                        } else {
+                                            Log.e("FCM_SERVER", "❌ Error guardando token. CODE: " + response.code());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<Void> call, Throwable t) {
+                                        Log.e("FCM_SERVER", "❌ Error al conectar: " + t.getMessage());
+                                    }
+                                });
+                            });
+
+
 
                     // Navegamos a la actividad principal
                     Intent intent = new Intent(getApplication(), MainActivity.class);
@@ -164,5 +205,7 @@ public class LoginActivityViewModel extends AndroidViewModel {
                 Toast.makeText(getApplication(), "Error al conectar con la API", Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 }

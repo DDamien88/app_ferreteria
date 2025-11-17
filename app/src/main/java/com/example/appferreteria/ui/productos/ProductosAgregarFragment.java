@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -41,6 +42,37 @@ public class ProductosAgregarFragment extends Fragment {
         binding = FragmentProductosAgregarBinding.inflate(inflater, container, false);
 
         vm = new ViewModelProvider(this).get(ProductosAgregarViewModel.class);
+
+
+        // Acceso vía ViewBinding
+        AutoCompleteTextView autoCategoria = binding.autoCategoria;
+
+// Lista de categorías
+        String[] categorias = {
+                "Insumos varios",
+                "Protección Personal (EPP)",
+                "Limpieza",
+                "Seguridad",
+                "Pintura",
+                "Plomería",
+                "Electricidad",
+                "Máquinas y Equipos",
+                "Herramientas"
+        };
+
+// Adaptador
+        ArrayAdapter<String> adapterCategorias =
+                new ArrayAdapter<>(requireContext(), android.R.layout.simple_list_item_1, categorias);
+
+// Setear adaptador
+        autoCategoria.setAdapter(adapterCategorias);
+
+// Bloquear escritura
+        autoCategoria.setInputType(0);
+        autoCategoria.setKeyListener(null);
+
+// Mostrar menú automáticamente
+        autoCategoria.setOnClickListener(v -> autoCategoria.showDropDown());
 
 
         vm.getMNombre().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -119,11 +151,11 @@ public class ProductosAgregarFragment extends Fragment {
         String codigoBarras = binding.etCodigoBarras.getText().toString();
 
 
-        if (nombre.isEmpty() || descripcion.isEmpty() || categoria.isEmpty() || precio.isEmpty()
+        /*if (nombre.isEmpty() || descripcion.isEmpty() || categoria.isEmpty() || precio.isEmpty()
                 || stock.isEmpty() || proveedor.isEmpty() || codigoBarras.isEmpty()) {
             Toast.makeText(getContext(), "No pude haber campos vacíos", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
         vm.guardarProducto(nombre, descripcion, categoria, precio, stock, proveedor, codigoBarras);
     }
 

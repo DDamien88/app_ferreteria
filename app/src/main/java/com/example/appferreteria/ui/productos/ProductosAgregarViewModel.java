@@ -66,6 +66,7 @@ public class ProductosAgregarViewModel extends AndroidViewModel {
      * Inicializa los campos si viene un producto para editar
      */
     public void setProductoParaEditar(Producto producto) {
+
         if (producto != null) {
             esEdicion = true;
             mProducto.setValue(producto);
@@ -96,6 +97,12 @@ public class ProductosAgregarViewModel extends AndroidViewModel {
             producto.setStock(stoc);
             producto.setProveedor(proveedor);
             producto.setCodigoBarras(codigoBarras);
+
+            if (nombre.isEmpty() || descripcion.isEmpty() || categoria.isEmpty() || precio.isEmpty()
+                    || stock.isEmpty() || proveedor.isEmpty() || codigoBarras.isEmpty()) {
+                Toast.makeText(getApplication(), "No pude haber campos vacíos", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             if (esEdicion) {
                 producto.setId(mProducto.getValue().getId());
@@ -136,7 +143,7 @@ public class ProductosAgregarViewModel extends AndroidViewModel {
                     Toast.makeText(getApplication(), "Producto guardado correctamente", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.d("API_ERROR", "Código: " + response.code() + " - " + response.message());
-                    Toast.makeText(getApplication(), "Error: " + response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), "Ya existe un producto con ese nombre o código interno." + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -187,7 +194,7 @@ public class ProductosAgregarViewModel extends AndroidViewModel {
                     Toast.makeText(getApplication(), "Producto actualizado correctamente", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.d("API_ERROR Actualizar", "Código: " + response.code() + " - " + response.message());
-                    Toast.makeText(getApplication(), "Error al actualizar: " + response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), "Error al actualizar: Ya existe un producto con ese nombre o código interno. " + response.message(), Toast.LENGTH_SHORT).show();
                 }
             }
 

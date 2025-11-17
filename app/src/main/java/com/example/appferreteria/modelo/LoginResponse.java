@@ -6,6 +6,16 @@ public class LoginResponse {
     private String nombre;
     private String apellido;
 
+    private int usuarioId;
+
+    public int getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
     public String getToken() {
         return token;
     }

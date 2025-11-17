@@ -44,6 +44,24 @@
             android:label="appFerreteria"
             android:theme="@style/Theme.AppFerreteria.NoActionBar" />
 
+        <service
+            android:name=".firebase.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <!-- Establecer el icono de notificación predeterminado (Opcional) -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_launcher_foreground" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/purple_200" />
+
+
     </application>
 
 </manifest>
