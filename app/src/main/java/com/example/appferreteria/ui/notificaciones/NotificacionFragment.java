@@ -5,17 +5,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appferreteria.R;
+import com.example.appferreteria.databinding.FragmentNotificacionBinding;
 import com.example.appferreteria.modelo.Notificacion;
 
 import java.text.SimpleDateFormat;
@@ -25,13 +20,9 @@ import java.util.List;
 
 public class NotificacionFragment extends Fragment {
 
+    private FragmentNotificacionBinding binding;
     private NotificacionViewModel viewModel;
     private NotificacionAdapter adapter;
-    private RecyclerView rv;
-    private TextView tvEmpty;
-
-    private EditText etBuscarUsuario, etBuscarFecha;
-    private Button btnFiltrar, btnLimpiar;
 
     private List<Notificacion> listaCompleta = new ArrayList<>();
 
@@ -39,40 +30,34 @@ public class NotificacionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_notificacion, container, false);
+        binding = FragmentNotificacionBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
 
-        rv = root.findViewById(R.id.rvNotificaciones);
-        tvEmpty = root.findViewById(R.id.tvEmpty);
-
-        etBuscarUsuario = root.findViewById(R.id.etBuscarUsuario);
-        etBuscarFecha = root.findViewById(R.id.etBuscarFecha);
-        btnFiltrar = root.findViewById(R.id.btnFiltrar);
-        btnLimpiar = root.findViewById(R.id.btnLimpiar);
-
-        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        // RecyclerView
+        binding.rvNotificaciones.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new NotificacionAdapter();
-        rv.setAdapter(adapter);
+        binding.rvNotificaciones.setAdapter(adapter);
 
-        // DatePicker al tocar el campo fecha
-        etBuscarFecha.setOnClickListener(v -> mostrarDatePicker());
+        // DatePicker al tocar fecha
+        binding.etBuscarFecha.setOnClickListener(v -> mostrarDatePicker());
 
         // Botón FILTRAR
-        btnFiltrar.setOnClickListener(v -> aplicarFiltros());
+        binding.btnFiltrar.setOnClickListener(v -> aplicarFiltros());
 
         // Botón LIMPIAR
-        btnLimpiar.setOnClickListener(v -> limpiarFiltros());
+        binding.btnLimpiar.setOnClickListener(v -> limpiarFiltros());
 
         viewModel = new ViewModelProvider(this).get(NotificacionViewModel.class);
 
         viewModel.getNotificaciones().observe(getViewLifecycleOwner(), lista -> {
-            listaCompleta = lista;  // guardamos toda la lista original
+            listaCompleta = lista;
 
             if (lista == null || lista.isEmpty()) {
-                tvEmpty.setVisibility(View.VISIBLE);
-                rv.setVisibility(View.GONE);
+                binding.tvEmpty.setVisibility(View.VISIBLE);
+                binding.rvNotificaciones.setVisibility(View.GONE);
             } else {
-                tvEmpty.setVisibility(View.GONE);
-                rv.setVisibility(View.VISIBLE);
+                binding.tvEmpty.setVisibility(View.GONE);
+                binding.rvNotificaciones.setVisibility(View.VISIBLE);
                 adapter.setNotificaciones(lista);
             }
         });
@@ -87,8 +72,8 @@ public class NotificacionFragment extends Fragment {
     // ---------------------------------------
 
     private void aplicarFiltros() {
-        String usuarioFiltro = etBuscarUsuario.getText().toString().trim().toLowerCase();
-        String fechaFiltro = etBuscarFecha.getText().toString().trim(); // dd/MM/yyyy
+        String usuarioFiltro = binding.etBuscarUsuario.getText().toString().trim().toLowerCase();
+        String fechaFiltro = binding.etBuscarFecha.getText().toString().trim();
 
         List<Notificacion> filtrada = new ArrayList<>();
 
@@ -117,21 +102,21 @@ public class NotificacionFragment extends Fragment {
         adapter.setNotificaciones(filtrada);
 
         if (filtrada.isEmpty()) {
-            tvEmpty.setVisibility(View.VISIBLE);
-            rv.setVisibility(View.GONE);
+            binding.tvEmpty.setVisibility(View.VISIBLE);
+            binding.rvNotificaciones.setVisibility(View.GONE);
         } else {
-            tvEmpty.setVisibility(View.GONE);
-            rv.setVisibility(View.VISIBLE);
+            binding.tvEmpty.setVisibility(View.GONE);
+            binding.rvNotificaciones.setVisibility(View.VISIBLE);
         }
     }
 
     private void limpiarFiltros() {
-        etBuscarUsuario.setText("");
-        etBuscarFecha.setText("");
+        binding.etBuscarUsuario.setText("");
+        binding.etBuscarFecha.setText("");
 
         adapter.setNotificaciones(listaCompleta);
-        tvEmpty.setVisibility(View.GONE);
-        rv.setVisibility(View.VISIBLE);
+        binding.tvEmpty.setVisibility(View.GONE);
+        binding.rvNotificaciones.setVisibility(View.VISIBLE);
     }
 
     // ---------------------------------------
@@ -146,7 +131,7 @@ public class NotificacionFragment extends Fragment {
             c.set(year, month, dayOfMonth);
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            etBuscarFecha.setText(sdf.format(c.getTime()));
+            binding.etBuscarFecha.setText(sdf.format(c.getTime()));
 
         },
                 calendar.get(Calendar.YEAR),
@@ -155,7 +140,7 @@ public class NotificacionFragment extends Fragment {
         ).show();
     }
 
-    // Convierte la fecha del backend a dd/MM/yyyy
+    // Convierte fecha del backend a dd/MM/yyyy
     private String formatearFecha(String fecha) {
 
         String[] entradas = {
