@@ -87,7 +87,7 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
                 }
             }
 
-            return fechaOriginal; // Si falla todo, la dejo como viene
+            return fechaOriginal;
 
         } catch (Exception e) {
             return fechaOriginal;

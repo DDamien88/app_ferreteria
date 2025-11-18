@@ -11,29 +11,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.appferreteria.R;
 import com.example.appferreteria.modelo.Producto;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class StockBajoAdapter extends RecyclerView.Adapter<StockBajoAdapter.ViewHolder> {
+public class StockBajoAdapter extends RecyclerView.Adapter<StockBajoAdapter.StockBajoViewHolder> {
 
-    private List<Producto> lista;
+    private List<Producto> lista = new ArrayList<>();
 
-    public StockBajoAdapter(List<Producto> lista) {
-        this.lista = lista;
-    }
+    public StockBajoAdapter() {}
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public StockBajoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_producto_stock, parent, false);
-        return new ViewHolder(view);
+                .inflate(R.layout.stock_bajo_item, parent, false);
+        return new StockBajoViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Producto p = lista.get(position);
-        holder.tvNombre.setText(p.getNombre());
-        holder.tvStock.setText("Stock: " + p.getStock());
+    public void onBindViewHolder(@NonNull StockBajoViewHolder holder, int position) {
+        Producto producto = lista.get(position);
+        holder.nombre.setText(producto.getNombre());
+        holder.stock.setText("Stock: " + producto.getStock());
+        holder.stockMinimo.setText("Mínimo: " + "5");
     }
 
     @Override
@@ -41,18 +41,19 @@ public class StockBajoAdapter extends RecyclerView.Adapter<StockBajoAdapter.View
         return lista.size();
     }
 
-    public void actualizarLista(List<Producto> nuevaLista) {
-        this.lista = nuevaLista;
+    public void setProductos(List<Producto> productos) {
+        this.lista = productos;
         notifyDataSetChanged();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNombre, tvStock;
+    static class StockBajoViewHolder extends RecyclerView.ViewHolder {
+        TextView nombre, stock, stockMinimo;
 
-        public ViewHolder(@NonNull View itemView) {
+        public StockBajoViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvNombre = itemView.findViewById(R.id.tvNombreProducto);
-            tvStock = itemView.findViewById(R.id.tvStockProducto);
+            nombre = itemView.findViewById(R.id.tvNombreProducto);
+            stock = itemView.findViewById(R.id.tvStockProducto);
+            stockMinimo = itemView.findViewById(R.id.tvStockMinimo);
         }
     }
 }

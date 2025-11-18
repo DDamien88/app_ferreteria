@@ -13,7 +13,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.appferreteria.R;
-import com.example.appferreteria.MainActivity; // ⬅️ ¡IMPORTANTE! Cambiado a la Activity Principal
+import com.example.appferreteria.MainActivity;
 import com.example.appferreteria.modelo.TokenRequest;
 import com.example.appferreteria.request.ApiClient;
 import com.google.firebase.messaging.FirebaseMessagingService;

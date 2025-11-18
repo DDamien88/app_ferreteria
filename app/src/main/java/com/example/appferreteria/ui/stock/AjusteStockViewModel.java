@@ -47,7 +47,7 @@ public class AjusteStockViewModel extends AndroidViewModel {
                     mensaje.postValue("Movimiento registrado con éxito.");
                 } else {
                     Log.d("errorStock", response.message());
-                    mensaje.postValue("Error: " + response.code());
+                    mensaje.postValue("Error: producto dado de baja o no existe ");
                 }
             }
 

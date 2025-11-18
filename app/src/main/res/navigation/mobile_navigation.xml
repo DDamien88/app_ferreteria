@@ -65,4 +65,8 @@
         android:name="com.example.appferreteria.ui.notificaciones.NotificacionFragment"
         android:label="Notificaciones"
         tools:layout="@layout/fragment_notificacion" />
+    <activity
+        android:id="@+id/resetPasswordActivity"
+        android:name="com.example.appferreteria.ResetPasswordActivity"
+        android:label="Reseteo de contraseña" />
 </navigation>

@@ -16,4 +16,5 @@
     <string name="ventas">Ventas</string>
     <string name="Stock">stock</string>
     <string name="Cerrar_Sesión">Cerrar Sesion\n</string>
+    <string name="Movimientos_Stock">Movimientos Stock</string>
 </resources>

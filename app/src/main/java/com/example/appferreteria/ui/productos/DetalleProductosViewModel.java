@@ -6,7 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.Navigation;
 
+import com.example.appferreteria.R;
 import com.example.appferreteria.modelo.Producto;
 import com.example.appferreteria.request.ApiClient;
 
@@ -21,6 +23,8 @@ public class DetalleProductosViewModel extends AndroidViewModel {
 
     private MutableLiveData<Producto> producto = new MutableLiveData<>();
     private MutableLiveData<String> mensaje = new MutableLiveData<>();
+    private MutableLiveData<Boolean> navegar = new MutableLiveData<>();
+
 
     public DetalleProductosViewModel(@NonNull Application application) {
         super(application);
@@ -38,8 +42,13 @@ public class DetalleProductosViewModel extends AndroidViewModel {
         producto.setValue(p);
     }
 
+    public LiveData<Boolean> getMNavegar(){
+        return navegar;
+    }
+
+
     public void darDeBajaProducto(Producto p) {
-        p.setEstado(false); // ⚠️ Dar de baja lógicamente
+        p.setEstado(false);
 
         String token = ApiClient.leerToken(getApplication());
 
@@ -50,27 +59,25 @@ public class DetalleProductosViewModel extends AndroidViewModel {
         // En este caso, no mandamos imagen nueva
         MultipartBody.Part imagenPart = null;
 
-        // Llamamos al endpoint PUT
-        Call<Producto> call = ApiClient.getInmoServicio().actualizarProducto("Bearer " +
+
+        Call<Void> call = ApiClient.getInmoServicio().eliminarProducto("Bearer " +
                 token,
-                p.getId(),
-                imagenPart,
-                productoBody
+                p.getId()
         );
 
-        call.enqueue(new Callback<Producto>() {
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Producto> call, Response<Producto> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     mensaje.postValue("Producto dado de baja correctamente");
-                    producto.postValue(response.body());
+                    navegar.postValue(true);
                 } else {
                     mensaje.postValue("Error al dar de baja: " + response.message());
                 }
             }
 
             @Override
-            public void onFailure(Call<Producto> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 mensaje.postValue("Fallo en la conexión: " + t.getMessage());
             }
         });

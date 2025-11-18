@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
@@ -93,7 +94,12 @@ public class DetalleProductosFragment extends Fragment {
                     .show();
         });
 
-
+        vm.getMNavegar().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                Navigation.findNavController(view).navigate(R.id.nav_home);
+            }
+        });
 
     }
 }

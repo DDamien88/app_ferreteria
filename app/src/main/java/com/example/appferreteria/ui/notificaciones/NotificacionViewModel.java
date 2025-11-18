@@ -32,18 +32,12 @@ public class NotificacionViewModel extends AndroidViewModel {
         return notificacionesMutable;
     }
 
-    /** 🔥 Llamada al backend para traer las notificaciones */
     public void cargarNotificaciones() {
         String token = ApiClient.leerToken(getApplication());
-        int userId = ApiClient.obtenerUsuarioId(getApplication());
-
-        if (token == null || token.isEmpty() || userId == -1) {
-            Log.e("NOTIF_VM", "No hay token o usuario");
-            return;
-        }
+        //int userId = ApiClient.obtenerUsuarioId(getApplication());
 
         Call<List<Notificacion>> call = ApiClient.getInmoServicio()
-                .obtenerNotificaciones("Bearer " + token, userId);
+                .obtenerNotificaciones("Bearer " + token);
 
         call.enqueue(new Callback<List<Notificacion>>() {
             @Override

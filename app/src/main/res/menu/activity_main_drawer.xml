@@ -25,7 +25,7 @@
         <item
             android:id="@+id/historialMovimientosFragment"
             android:icon="@drawable/stock"
-            android:title="@string/Stock" />
+            android:title="@string/Movimientos_Stock" />
 
         <item
             android:id="@+id/notificacionFragment"

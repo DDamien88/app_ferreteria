@@ -9,6 +9,7 @@ import com.example.appferreteria.modelo.LoginRequest;
 import com.example.appferreteria.modelo.LoginResponse;
 import com.example.appferreteria.modelo.MovimientoInventario;
 import com.example.appferreteria.modelo.Notificacion;
+import com.example.appferreteria.modelo.NotificacionRequest;
 import com.example.appferreteria.modelo.Producto;
 import com.example.appferreteria.modelo.ReporteVentas;
 import com.example.appferreteria.modelo.TokenRequest;
@@ -93,13 +94,6 @@ public class ApiClient {
         Call<List<Producto>> obtenerProductos();
 
 
-        /*@POST("api/Productos")
-        Call<Producto> crearProducto(
-                @Header("Authorization") String token,
-                @Body Producto producto
-        );*/
-
-
         @Multipart
         @POST("api/productos/cargar")
         Call<Producto> cargarProducto(@Header("Authorization") String token,
@@ -117,7 +111,7 @@ public class ApiClient {
         );
 
 
-        @DELETE("api/Productos/{id}")
+        @PUT("api/productos/baja/{id}")
         Call<Void> eliminarProducto(
                 @Header("Authorization") String token,
                 @Path("id") int id
@@ -171,13 +165,27 @@ public class ApiClient {
 
 
         @POST("api/notificaciones/enviar")
-        Call<Void> enviarnotificaciones(@Body TokenRequest tokenRequest);
+        Call<Void> enviarNotificaciones(@Body NotificacionRequest request);
+
+        @GET("api/notificaciones")
+        Call<List<Notificacion>> obtenerNotificaciones(
+                @Header("Authorization") String token
+        );
+
 
         @GET("api/notificaciones/{usuarioId}")
-        Call<List<Notificacion>> obtenerNotificaciones(
+        Call<List<Notificacion>> traerNotificaciones(
                 @Header("Authorization") String token,
                 @Path("usuarioId") int usuarioId
         );
+
+        // ===========================
+        // Reseteo de contraseña
+        // ===========================
+
+        @FormUrlEncoded
+        @POST("api/usuarios/email")
+        Call<String> resetPassword(@Field("email") String email);
 
 
     }

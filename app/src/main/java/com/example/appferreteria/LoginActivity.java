@@ -4,6 +4,7 @@ package com.example.appferreteria;
 
 import android.Manifest;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -77,12 +78,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        /*binding.tvOlvideContra.setOnClickListener(v ->
+        binding.tvOlvideContra.setOnClickListener(v ->
 
         {
             Intent intent = new Intent(LoginActivity.this, ResetPasswordActivity.class);
             startActivity(intent);
-        });*/
+        });
 
 
     }
