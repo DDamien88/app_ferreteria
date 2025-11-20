@@ -11,6 +11,7 @@ public class Notificacion {
     private String usuarioNombre;
     private String usuarioApellido;
 
+
     public int getId() {
         return id;
     }

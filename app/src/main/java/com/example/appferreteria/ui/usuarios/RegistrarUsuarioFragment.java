@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,18 @@ public class RegistrarUsuarioFragment extends Fragment {
 
         binding = FragmentRegistrarUsuarioBinding.inflate(inflater, container, false);
         viewModel = new ViewModelProvider(this).get(RegistrarUsuarioViewModel.class);
+
+        String[] roles = {"Dueño", "encargado"};
+
+        ArrayAdapter<String> adapterRoles = new ArrayAdapter<>(
+                getContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                roles
+        );
+
+        binding.etRol.setAdapter(adapterRoles);
+        binding.etRol.setKeyListener(null);
+
 
         binding.btnRegistrar.setOnClickListener(v -> {
             viewModel.registrarUsuario(

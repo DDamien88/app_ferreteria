@@ -101,17 +101,19 @@
         <!-- Rol -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilRol"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Rol"
             android:layout_marginTop="8dp">
-            <com.google.android.material.textfield.TextInputEditText
+
+            <AutoCompleteTextView
                 android:id="@+id/etRol"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
+                android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <!-- Botón -->
         <com.google.android.material.button.MaterialButton

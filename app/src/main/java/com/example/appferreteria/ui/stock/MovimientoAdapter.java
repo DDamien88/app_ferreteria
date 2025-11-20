@@ -41,7 +41,7 @@ public class MovimientoAdapter extends RecyclerView.Adapter<MovimientoAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolderMovimiento holder, int position) {
         MovimientoInventario m = lista.get(position);
 
-        holder.tvProducto.setText(m.getProducto().getNombre() + m.getProducto().getDescripcion());
+        holder.tvProducto.setText(m.getProducto().getNombre() + " " + m.getProducto().getDescripcion());
         holder.tvTipo.setText(m.getTipo() != null ? m.getTipo() : "N/A");
         holder.tvCantidad.setText("Cantidad: " + m.getCantidad());
         holder.tvUsuario.setText("Usuario: " + m.getUsuario().getNombre() + m.getUsuario().getApellido());

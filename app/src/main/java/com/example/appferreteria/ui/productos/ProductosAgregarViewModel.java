@@ -143,7 +143,7 @@ public class ProductosAgregarViewModel extends AndroidViewModel {
                     Toast.makeText(getApplication(), "Producto guardado correctamente", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.d("API_ERROR", "Código: " + response.code() + " - " + response.message());
-                    Toast.makeText(getApplication(), "Ya existe un producto con ese nombre o código interno." + response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), "Hay un producto con ese nombre o código interno." + response.message(), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -194,7 +194,7 @@ public class ProductosAgregarViewModel extends AndroidViewModel {
                     Toast.makeText(getApplication(), "Producto actualizado correctamente", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.d("API_ERROR Actualizar", "Código: " + response.code() + " - " + response.message());
-                    Toast.makeText(getApplication(), "Error al actualizar: Ya existe un producto con ese nombre o código interno. " + response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), "Error al actualizar: Ya existe un producto con ese nombre o código interno. " + response.message(), Toast.LENGTH_LONG).show();
                 }
             }
 
